@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import db from "@/db";
 import { Card } from "./card/card.interface";
 
@@ -8,7 +8,7 @@ function getTodayDateString() {
   return now.toISOString().split("T")[0];
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const today = getTodayDateString();
   const startOfToday = new Date(today);
   startOfToday.setHours(0, 0, 0, 0);

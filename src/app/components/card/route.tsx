@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+"use client";
 
-const API_URL = "https://api.example.com/data"; // Replace with your 3rd party API endpoint
+import { Card } from "@/app/api/card/card.interface";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
+const API_URL = "https://api.scryfall.com/cards/random"; // Replace with your 3rd party API endpoint
 
 export default function CardPage() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,13 +22,21 @@ export default function CardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || data == undefined) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      <h1>Card Data</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <h1>Daily Card</h1>
+      <div className="relative w-96 h-[560px]">
+        <Image
+          src={data?.image_uris.normal}
+          alt="daily card image"
+          width={400} // desired width in pixels
+          height={300} // desired height in pixels
+          className="rounded-lg shadow-md"
+        />
+      </div>
     </div>
   );
 }

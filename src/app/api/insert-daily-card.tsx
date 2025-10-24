@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { Card } from "./card/card.interface";
 import db from "@/db";
+import { cards } from "@/db/schema";
 
 export async function POST() {
   try {
     // Fetch a random card from Scryfall
-    const response = await fetch("https://api.scryfall.com/cards/random");
+    const response = await fetch({
+      url: "https://api.scryfall.com/cards/random",
+      method: "GET",
+    });
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch card" },
@@ -27,7 +31,7 @@ export async function POST() {
     }
 
     // Insert the card into the database
-    const newCard = await db.insert().values(card).returning();
+    const newCard = await db.insert(cards).values(card).returning();
 
     return NextResponse.json(
       { message: "Card inserted", card: newCard },
