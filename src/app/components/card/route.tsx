@@ -4,7 +4,7 @@ import { Card } from "@/app/api/card/card.interface";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-const API_URL = "https://api.scryfall.com/cards/random"; // Replace with your 3rd party API endpoint
+const API_URL = "/api/get-daily-card";
 
 export default function CardPage() {
   const [data, setData] = useState<Card | null>(null);
@@ -15,9 +15,10 @@ export default function CardPage() {
     fetch(API_URL)
       .then((res) => {
         if (!res.ok) throw new Error("Network response was not ok");
+        console.log(res);
         return res.json();
       })
-      .then((json) => setData(json))
+      .then((json) => setData(json.card[0]))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);

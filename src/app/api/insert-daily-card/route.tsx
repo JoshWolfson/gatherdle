@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
-import { Card } from "./card/card.interface";
+import { Card } from "../card/card.interface";
 import db from "@/db";
 import { cards } from "@/db/schema";
 
-export async function POST() {
+const API_URL = "https://api.scryfall.com/cards/random";
+
+export async function insertDailyCard() {
   try {
     // Fetch a random card from Scryfall
-    const response = await fetch({
-      url: "https://api.scryfall.com/cards/random",
-      method: "GET",
-    });
+    const response = await fetch(API_URL);
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch card" },
@@ -43,4 +42,8 @@ export async function POST() {
       { status: 500 }
     );
   }
+}
+
+export async function POST() {
+  return insertDailyCard();
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import db from "@/db";
-import { Card } from "./card/card.interface";
+import { Card } from "../card/card.interface";
+import { insertDailyCard } from "../insert-daily-card/route";
 
 // Helper to get today's date in YYYY-MM-DD format
 function getTodayDateString() {
@@ -26,16 +27,7 @@ export async function GET() {
   }
 
   // If not found, call the insert-daily-card route
-  const res = await fetch(`/api/insert-daily-card`, {
-    method: "POST",
-  });
-
-  if (!res.ok) {
-    return NextResponse.json(
-      { error: "Failed to insert daily card" },
-      { status: 500 }
-    );
-  }
+  const res = await insertDailyCard();
 
   const newCard: Card = await res.json();
   return NextResponse.json(newCard);
