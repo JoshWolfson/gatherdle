@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import db from "@/db";
 import { Card } from "../card/card.interface";
 import { insertDailyCard } from "../insert-daily-card/route";
+import { sql } from "drizzle-orm";
 
 // Helper to get today's date in YYYY-MM-DD format
 function getTodayDateString() {
@@ -18,8 +19,7 @@ export async function GET() {
 
   // Try to find today's card
   const card = await db.query.cards.findFirst({
-    where: (cards, { between }) =>
-      between(cards.created_at, startOfToday, endOfToday),
+    where: (cards) => sql`DATE(${cards.created_at}) = ${today}`,
   });
 
   if (card) {

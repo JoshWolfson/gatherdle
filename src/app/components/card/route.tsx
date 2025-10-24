@@ -18,7 +18,7 @@ export default function CardPage() {
         console.log(res);
         return res.json();
       })
-      .then((json) => setData(json.card[0]))
+      .then((json) => setData(json))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
