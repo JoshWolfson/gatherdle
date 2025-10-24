@@ -7,9 +7,14 @@ import Image from "next/image";
 const API_URL = "/api/get-daily-card";
 
 export default function CardPage() {
-  const [data, setData] = useState<Card | null>(null);
+  const [dailyCard, setDailyCard] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hideCard, setHideCard] = useState(true);
+  const [cardQuery, setCardQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<
+    { id: string; name: string }[]
+  >([]);
 
   useEffect(() => {
     fetch(API_URL)
@@ -18,24 +23,29 @@ export default function CardPage() {
         console.log(res);
         return res.json();
       })
-      .then((json) => setData(json))
+      .then((json) => setDailyCard(json))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading || data == undefined) return <div>Loading...</div>;
+  if (loading || dailyCard == undefined) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>Daily Card</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-4xl font-bold mb-20">Daily Card Game</h1>
+      <div>Set:{dailyCard.set_name}</div>
+      <div>Converted Mana Cost: {dailyCard.cmc}</div>
+      <div>Color: {dailyCard.color_identity}</div>
+      <input>Guess</input>
       <div className="relative w-96 h-[560px]">
         <Image
-          src={data?.image_uris.normal}
+          src={dailyCard?.image_uris.normal}
           alt="daily card image"
-          width={400} // desired width in pixels
-          height={300} // desired height in pixels
+          width={400}
+          height={300}
           className="rounded-lg shadow-md"
+          hidden={hideCard}
         />
       </div>
     </div>

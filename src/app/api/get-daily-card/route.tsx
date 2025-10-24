@@ -29,6 +29,14 @@ export async function GET() {
   // If not found, call the insert-daily-card route
   const res = await insertDailyCard();
 
-  const newCard: Card = await res.json();
-  return NextResponse.json(newCard);
+  if (res.status === 201) {
+    const newCard = await db.query.cards.findFirst({
+      where: (cards) => sql`DATE(${cards.created_at}) = ${today}`,
+    });
+    if (newCard) {
+      return NextResponse.json(newCard);
+    }
+  }
+
+  return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 }
