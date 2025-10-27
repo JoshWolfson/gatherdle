@@ -1,4 +1,0 @@
-CREATE TABLE IF NOT EXISTS "set_names" (
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      name TEXT NOT NULL,
-);
