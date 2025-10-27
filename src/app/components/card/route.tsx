@@ -54,12 +54,29 @@ export default function CardPage() {
         <b>Rarity:</b> {dailyCard.rarity}
       </div>
       <div>
-        {guessCount > 1 && <div>Converted Mana Cost: {dailyCard.cmc}</div>}
+        {guessCount > 0 && (
+          <div>
+            <b>Converted Mana Cost: </b>
+            {dailyCard.cmc}
+          </div>
+        )}
       </div>
       <div>
-        {guessCount > 2 && <div>Color: {dailyCard.color_identity}</div>}
+        {guessCount > 1 && (
+          <div>
+            <b>Color: </b>
+            {dailyCard.color_identity}
+          </div>
+        )}
       </div>
-      <div>{guessCount > 3 && <div>Type: {dailyCard.type_line}</div>}</div>
+      <div>
+        {guessCount > 2 && (
+          <div>
+            <b>Type: </b>
+            {dailyCard.type_line}
+          </div>
+        )}
+      </div>
       <GuesserInput
         selected={selected}
         setSelected={setSelected}

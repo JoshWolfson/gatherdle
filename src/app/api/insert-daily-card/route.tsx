@@ -3,12 +3,10 @@ import { Card } from "../card/card.interface";
 import db from "@/db";
 import { cards } from "@/db/schema";
 
-const API_URL = "https://api.scryfall.com/cards/random";
-
 export async function insertDailyCard() {
   try {
     // Fetch a random card from Scryfall
-    const response = await fetch(API_URL);
+    const response = await fetch("https://api.scryfall.com/cards/random");
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch card" },

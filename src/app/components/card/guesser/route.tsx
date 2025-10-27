@@ -17,9 +17,11 @@ export default function GuesserInput({
 }: GuesserInputProps) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [ignoreFetch, setIgnoreFetch] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState<number>(-1);
 
   useEffect(() => {
-    if (!query) {
+    if (!query || ignoreFetch) {
       setSuggestions([]);
       return;
     }
@@ -51,13 +53,33 @@ export default function GuesserInput({
     return () => controller.abort();
   }, [query]);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (suggestions.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightIndex((prev) => Math.min(prev + 1, suggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (highlightIndex >= 0) setSuggestions(suggestions[highlightIndex]);
+    } else if (e.key === "Escape") {
+      setSuggestions([]);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       Input Guess!
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setIgnoreFetch(false);
+        }}
         placeholder="Search cards..."
         className="w-full px-3 py-2 border rounded"
       />
@@ -72,6 +94,7 @@ export default function GuesserInput({
                 setQuery(card);
                 setSuggestions([]);
                 setGuessCount(guessCount + 1);
+                setIgnoreFetch(true);
               }}
             >
               {card}
