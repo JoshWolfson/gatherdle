@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import db from "@/db";
-import { Card } from "../card/card.interface";
 import { insertDailyCard } from "../insert-daily-card/route";
 import { sql } from "drizzle-orm";
 

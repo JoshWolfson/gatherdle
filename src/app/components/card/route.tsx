@@ -3,6 +3,7 @@
 import { Card } from "@/app/api/card/card.interface";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import GuesserInput from "./guesser/route";
 
 const API_URL = "/api/get-daily-card";
 
@@ -37,7 +38,7 @@ export default function CardPage() {
       <div>Set:{dailyCard.set_name}</div>
       <div>Converted Mana Cost: {dailyCard.cmc}</div>
       <div>Color: {dailyCard.color_identity}</div>
-      <input>Guess</input>
+      <GuesserInput />
       <div className="relative w-96 h-[560px]">
         <Image
           src={dailyCard?.image_uris.normal}

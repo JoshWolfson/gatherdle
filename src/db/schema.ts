@@ -75,4 +75,18 @@ const cards = pgTable("cards", {
   purchase_uris: jsonb("purchase_uris").notNull(),
 });
 
-export { cards };
+const card_names = pgTable("card_names", {
+  name: text("name").notNull(),
+  created_at: timestamp("created_at", { mode: "date" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+const set_names = pgTable("set_names", {
+  name: text("name").notNull(),
+  created_at: timestamp("created_at", { mode: "date" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+export { cards, card_names, set_names };

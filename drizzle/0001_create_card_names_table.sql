@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS "card_names" (
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      name TEXT NOT NULL,
+);
