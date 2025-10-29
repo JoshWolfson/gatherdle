@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "cards" (
+CREATE TABLE "cards" (
       id TEXT PRIMARY KEY,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       object TEXT NOT NULL,
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS "cards" (
       border_color TEXT,
       frame TEXT,
       full_art BOOLEAN NOT NULL,
+      flavor_text TEXT,
       textless BOOLEAN NOT NULL,
       booster BOOLEAN NOT NULL,
       story_spotlight BOOLEAN NOT NULL,

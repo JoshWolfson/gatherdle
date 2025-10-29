@@ -4,6 +4,7 @@ import { Card } from "@/app/api/card/card.interface";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import GuesserInput from "./guesser/route";
+import CardInfo from "./info/route";
 
 export default function CardPage() {
   const [dailyCard, setDailyCard] = useState<Card | null>(null);
@@ -12,6 +13,8 @@ export default function CardPage() {
   const [hideCard, setHideCard] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
   const [guessCount, setGuessCount] = useState(0);
+  const [match, setMatch] = useState(false);
+  const maxGuesses = 4;
 
   useEffect(() => {
     fetch("/api/get-daily-card")
@@ -27,78 +30,57 @@ export default function CardPage() {
   useEffect(() => {
     if (!selected || !dailyCard) return;
 
-    const match = selected.toLowerCase() === dailyCard.name.toLowerCase();
-    setHideCard(!match);
-    console.log(
-      "Selected:",
-      selected,
-      "Daily Card:",
-      dailyCard.name,
-      "hideCard:",
-      hideCard,
-      "guessCount:",
-      guessCount
-    );
-  }, [selected, dailyCard, hideCard, guessCount]);
+    const cardMatch = selected.toLowerCase() === dailyCard.name.toLowerCase();
+    const isAtMaxGuesses = guessCount >= maxGuesses;
+
+    if (match !== cardMatch) {
+      setMatch(cardMatch);
+    }
+
+    const shouldRevealCard = cardMatch || isAtMaxGuesses;
+
+    setHideCard(!shouldRevealCard);
+  }, [selected, dailyCard, guessCount, match]);
 
   if (loading || dailyCard == undefined) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-4xl font-bold mb-20">Daily Card Guessing Game</h1>
-      <div>
-        <b>Set:</b> {dailyCard.set_name}
-      </div>
-      <div>
-        <b>Rarity:</b> {dailyCard.rarity}
-      </div>
-      <div>
-        {guessCount > 0 && (
-          <div>
-            <b>Converted Mana Cost: </b>
-            {dailyCard.cmc}
-          </div>
-        )}
-      </div>
-      <div>
-        {guessCount > 1 && (
-          <div>
-            <b>Color: </b>
-            {dailyCard.color_identity}
-          </div>
-        )}
-      </div>
-      <div>
-        {guessCount > 2 && (
-          <div>
-            <b>Type: </b>
-            {dailyCard.type_line}
-          </div>
-        )}
-      </div>
-      <GuesserInput
-        selected={selected}
-        setSelected={setSelected}
+    <div>
+      <h1 className="text-4xl font-bold mb-4">Daily Card Guessing Game</h1>
+      <CardInfo
+        dailyCard={dailyCard}
         guessCount={guessCount}
-        setGuessCount={setGuessCount}
+        hideCard={hideCard}
       />
-      <div className="relative w-96 h-[560px]">
-        {!hideCard && (
-          <div>
-            <h1 className="text-4xl font-bold justify-center items-center">
-              Congrats you won!
-            </h1>
+      {!match && guessCount < maxGuesses && (
+        <GuesserInput
+          setSelected={setSelected}
+          guessCount={guessCount}
+          setGuessCount={setGuessCount}
+        />
+      )}
+      {!hideCard && (
+        <div className="flex flex-col items-center space-y-4 mt-5">
+          <div className="text-center px-4">
+            {match && <h1 className="text-4xl font-bold">Congrats you won!</h1>}
+            {!match && guessCount >= maxGuesses && (
+              <h1 className="text-4xl font-bold">Better luck next time!</h1>
+            )}
+          </div>
+
+          <div className="relative w-96 h-[560px]">
             <Image
               src={dailyCard?.image_uris.normal}
               alt="daily card image"
               width={400}
               height={300}
-              className="rounded-lg shadow-md"
+              className="rounded-lg shadow-md bg-[#ccc2c2]"
+              style={{ backgroundColor: "#ccc2c2" }}
             />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

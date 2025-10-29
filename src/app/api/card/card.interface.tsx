@@ -106,6 +106,7 @@ export interface Card {
   border_color: string;
   frame: string;
   full_art: boolean;
+  flavor_text: string;
   textless: boolean;
   booster: boolean;
   story_spotlight: boolean;

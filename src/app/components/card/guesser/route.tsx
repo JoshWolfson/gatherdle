@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 
 interface GuesserInputProps {
-  selected: string | null;
   setSelected: (value: string | null) => void;
   guessCount: number;
   setGuessCount: (value: number) => void;
 }
 
 export default function GuesserInput({
-  selected,
   setSelected,
   guessCount,
   setGuessCount,
@@ -54,8 +52,6 @@ export default function GuesserInput({
   }, [query]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (suggestions.length === 0) return;
-
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setHighlightIndex((prev) => Math.min(prev + 1, suggestions.length - 1));
@@ -64,44 +60,64 @@ export default function GuesserInput({
       setHighlightIndex((prev) => Math.max(prev - 1, 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      if (highlightIndex >= 0) setSuggestions(suggestions[highlightIndex]);
+
+      // If a suggestion is highlighted, select it
+      if (highlightIndex >= 0 && suggestions[highlightIndex]) {
+        selectSuggestion(suggestions[highlightIndex]);
+      }
+      // Otherwise, use the current query as the guess (if it's not empty)
+      else if (query.trim() !== "") {
+        selectSuggestion(query.trim());
+      }
     } else if (e.key === "Escape") {
       setSuggestions([]);
     }
   };
 
+  const selectSuggestion = (card: string) => {
+    setGuessCount(guessCount + 1);
+    setSelected(card);
+    setQuery("");
+    setSuggestions([]);
+    setIgnoreFetch(true);
+    setHighlightIndex(-1);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      Input Guess!
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setIgnoreFetch(false);
-        }}
-        placeholder="Search cards..."
-        className="w-full px-3 py-2 border rounded"
-      />
-      {suggestions.length > 0 && (
-        <ul>
-          {suggestions.slice(0, 10).map((card) => (
-            <li
-              key={card}
-              className="px-3 hover:bg-gray-100 cursor-pointer"
-              onClick={() => {
-                setSelected(card);
-                setQuery(card);
-                setSuggestions([]);
-                setGuessCount(guessCount + 1);
-                setIgnoreFetch(true);
-              }}
-            >
-              {card}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="relative w-full">
+      <div className="flex flex-col items-center justify-center ">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setIgnoreFetch(false);
+          }}
+          onKeyDown={(e) => handleKeyDown(e)}
+          placeholder="Search cards..."
+          className="w-full px-3 py-2 mt-4 border rounded"
+        />
+        {suggestions.length > 0 && (
+          <ul className="absolute top-full left-0 right-0 max-h-48 overflow-auto border bg-white border rounded shadow-md z-10 mt-1">
+            {suggestions.map((card, idx) => (
+              <li
+                key={card}
+                className={`px-3 py-2 cursor-pointer rounded ${
+                  idx === highlightIndex
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-black hover:bg-gray-200"
+                }`}
+                onClick={() => selectSuggestion(card)}
+                onMouseEnter={() => {
+                  setHighlightIndex(idx);
+                }}
+              >
+                {card}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

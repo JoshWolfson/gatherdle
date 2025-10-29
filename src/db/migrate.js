@@ -1,23 +1,29 @@
+// scripts/reset-and-migrate.js
 const { drizzle } = require("drizzle-orm/postgres-js");
 const { migrate } = require("drizzle-orm/postgres-js/migrator");
 const postgres = require("postgres");
 
 const runMigration = async () => {
-  const sql = postgres("postgresql://postgres:admin@localhost:5433/gatherdle", { max: 1, username: "postgres", password: "admin" });
+  const sql = postgres(
+    "postgresql://postgres:admin@localhost:5433/gatherdle",
+    { max: 1, username: "postgres", password: "admin" }
+  );
+
   const db = drizzle(sql);
-  await migrate(db, { migrationsFolder: "drizzle" });
-  await sql.end();
+
+  try {
+    console.log("Running migrations...");
+    await migrate(db, { migrationsFolder: "drizzle" });
+
+    console.log("✅ Successfully reset and ran migrations.");
+  } catch (err) {
+    console.error("❌ Failed to run migrations:", err);
+    process.exit(1);
+  } finally {
+    await sql.end();
+  }
+
+  process.exit(0);
 };
 
-runMigration()
-  .then(() => {
-    console.log("Successfully ran migration.");
-
-    process.exit(0);
-  })
-  .catch((e) => {
-    console.error("Failed to run migration.");
-    console.error(e);
-
-    process.exit(1);
-  });
+runMigration();
