@@ -14,7 +14,7 @@ export default function CardPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [guessCount, setGuessCount] = useState(0);
   const [match, setMatch] = useState(false);
-  const maxGuesses = 4;
+  const maxGuesses = 5;
 
   useEffect(() => {
     fetch("/api/get-daily-card")

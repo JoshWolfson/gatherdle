@@ -20,7 +20,7 @@ export default function CardInfo({
   const [setImageSvg, setSetImageSvg] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(dailyCard.set_uri)
+    fetch(dailyCard?.set_uri ?? "")
       .then((res) => {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
@@ -42,9 +42,11 @@ export default function CardInfo({
       <div>
         <b>Rarity:</b> {capitalize(dailyCard?.rarity)}
       </div>
-      <div>
-        <b>Flavor Text:</b> {dailyCard?.flavor_text}
-      </div>
+      {dailyCard?.flavor_text.length > 0 && (
+        <div>
+          <b>Flavor Text:</b> {dailyCard?.flavor_text}
+        </div>
+      )}
       {guessCount > 0 && (
         <div>
           <b>Converted Mana Cost: </b>
