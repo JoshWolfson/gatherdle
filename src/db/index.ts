@@ -5,12 +5,12 @@ import * as schema from "./schema";
 const setup = () => {
   // for query purposes
   const queryClient = postgres(
-    "postgresql://postgres:admin@postgres:5432/gatherdle",
+    "postgresql://postgres:admin@gatherdle-prod-db:5432/gatherdle",
     {
       username: "postgres",
       password: "admin",
-      host: "localhost",
-      port: 5433,
+      host: "gatherdle-prod-db",
+      port: 5432,
       database: "gatherdle",
     }
   );

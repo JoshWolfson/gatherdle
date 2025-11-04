@@ -9,7 +9,8 @@ interface CardInfoProps {
   hideCard: boolean;
 }
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+const capitalize = (str: string) =>
+  str?.charAt(0)?.toUpperCase() + str?.slice(1);
 
 export default function CardInfo({
   dailyCard,
@@ -30,42 +31,42 @@ export default function CardInfo({
 
   return (
     <div className="items-start">
-      <b>Set:</b> {dailyCard.set_name}
+      <b>Set:</b> {dailyCard?.set_name}
       {setImageSvg && (
         <img
           src={setImageSvg}
-          alt={`${dailyCard.set_name} set icon`}
+          alt={`${dailyCard?.set_name ?? ""} set icon`}
           className="set-image inline w-6 h-6 ml-2 rounded-lg"
         />
       )}
       <div>
-        <b>Rarity:</b> {capitalize(dailyCard.rarity)}
+        <b>Rarity:</b> {capitalize(dailyCard?.rarity)}
       </div>
       <div>
-        <b>Flavor Text:</b> {dailyCard.flavor_text}
+        <b>Flavor Text:</b> {dailyCard?.flavor_text}
       </div>
       {guessCount > 0 && (
         <div>
           <b>Converted Mana Cost: </b>
-          {dailyCard.cmc}
+          {dailyCard?.cmc}
         </div>
       )}
       {(guessCount > 1 || !hideCard) && (
         <div>
           <b>Color: </b>
-          {dailyCard.color_identity}
+          {dailyCard?.color_identity}
         </div>
       )}
       {(guessCount > 2 || !hideCard) && (
         <div>
           <b>Type: </b>
-          {dailyCard.type_line}
+          {dailyCard?.type_line}
         </div>
       )}
       {(guessCount > 3 || !hideCard) && (
         <div className="w-full max-w-lg break-words">
           <b>Oracle Text: </b>
-          {dailyCard.oracle_text}
+          {dailyCard?.oracle_text}
         </div>
       )}
     </div>

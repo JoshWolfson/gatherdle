@@ -3,8 +3,8 @@
 import { Card } from "@/app/api/card/card.interface";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import GuesserInput from "./guesser/route";
-import CardInfo from "./info/route";
+import GuesserInput from "./guesser/page";
+import CardInfo from "./info/page";
 
 export default function CardPage() {
   const [dailyCard, setDailyCard] = useState<Card | null>(null);

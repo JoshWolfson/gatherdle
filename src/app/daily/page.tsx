@@ -1,4 +1,4 @@
-import CardPage from "../components/card/route";
+import CardPage from "../components/card/page";
 
 export default function DailyPage() {
   return (

@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 // scripts/reset-and-migrate.js
 const { drizzle } = require("drizzle-orm/postgres-js");
 const { migrate } = require("drizzle-orm/postgres-js/migrator");
 const postgres = require("postgres");
-
 const runMigration = async () => {
   const sql = postgres(
-    "postgresql://postgres:admin@localhost:5433/gatherdle",
+    "postgresql://postgres:admin@gatherdle-prod-db:5432/gatherdle",
     { max: 1, username: "postgres", password: "admin" }
   );
 
