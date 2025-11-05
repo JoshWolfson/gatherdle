@@ -15,7 +15,6 @@ services:
   web:
     build: .
     container_name: gatherdle-web
-    image: joshwolfson/gatherdle-web:latest
     restart: always
     ports:
       - "80:3000"
