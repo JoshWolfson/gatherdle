@@ -2,16 +2,22 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
+const username = process.env.DB_USER;
+const password = process.env.DB_PASSWORD;
+const host = process.env.DB_HOST;
+const port = parseInt(process.env.DB_PORT || "5432", 10);
+const database = process.env.DB_NAME;
+
 const setup = () => {
   // for query purposes
   const queryClient = postgres(
-    "postgresql://postgres:admin@gatherdle-prod-db:5432/gatherdle",
+    `postgresql://${username}:${password}@${host}:${port}/${database}`,
     {
-      username: "postgres",
-      password: "admin",
-      host: "gatherdle-prod-db",
-      port: 5432,
-      database: "gatherdle",
+      username,
+      password,
+      host,
+      port,
+      database,
     }
   );
   const db = drizzle(queryClient, { schema });

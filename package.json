@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 80",
+    "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "migrate:up": "node ./src/db/migrate.js"
+    "migrate:up": "node ./src/db/migrate.js",
+    "create-image": "docker build -t joshwolfson/gatherdle:latest .",
+    "push-image": "docker login && docker push joshwolfson/gatherdle:latest",
+    "use-image": "docker compose -f docker-compose.yml pull && docker compose -f docker-compose.yml up -d --force-recreate"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.5",
     "next": "15.5.3",
     "postgres": "^3.4.7",

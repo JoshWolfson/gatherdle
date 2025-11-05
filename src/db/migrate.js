@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-// scripts/reset-and-migrate.js
+require("dotenv").config();
 const { drizzle } = require("drizzle-orm/postgres-js");
 const { migrate } = require("drizzle-orm/postgres-js/migrator");
 const postgres = require("postgres");
 const runMigration = async () => {
   const sql = postgres(
-    "postgresql://postgres:admin@gatherdle-prod-db:5432/gatherdle",
-    { max: 1, username: "postgres", password: "admin" }
+    `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    { max: 1, username: process.env.DB_USER, password: process.env.DB_PASSWORD }
   );
 
   const db = drizzle(sql);

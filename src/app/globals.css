@@ -2,6 +2,7 @@
 
 :root {
   --background: #ffffff;
+  --container: #59789bf7;
   --foreground: #171717;
 }
 
@@ -26,7 +27,7 @@ body {
 }
 
 .container {
-  background: #252222;
+  background: var(--container);
 }
 
 .set-image {
