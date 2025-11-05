@@ -9,7 +9,7 @@
     "lint": "eslint",
     "migrate:up": "node ./src/db/migrate.js",
     "create-image": "docker build -t joshwolfson/gatherdle:latest .",
-    "push-image": "docker login && docker push joshwolfson/gatherdle:latest",
+    "push-image": "docker login -u joshwolfson && docker push joshwolfson/gatherdle:latest",
     "use-image": "docker compose -f docker-compose.yml pull && docker compose -f docker-compose.yml up -d --force-recreate"
   },
   "dependencies": {

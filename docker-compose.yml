@@ -22,6 +22,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: admin
       DB_HOST: gatherdle-prod-db
+      DB_NAME: gatherdle
       DB_PORT: 5432
     depends_on:
       - gatherdle-prod-db
