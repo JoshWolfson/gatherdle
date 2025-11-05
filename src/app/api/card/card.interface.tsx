@@ -72,7 +72,7 @@ export interface Card {
   mana_cost: string;
   cmc: number;
   type_line: string;
-  oracle_text: string;
+  oracle_text: string | null;
   colors: string[];
   color_identity: string[];
   keywords: string[];
@@ -106,7 +106,7 @@ export interface Card {
   border_color: string;
   frame: string;
   full_art: boolean;
-  flavor_text: string;
+  flavor_text: string | null;
   textless: boolean;
   booster: boolean;
   story_spotlight: boolean;

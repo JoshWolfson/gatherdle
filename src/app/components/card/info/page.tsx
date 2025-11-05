@@ -42,11 +42,13 @@ export default function CardInfo({
       <div>
         <b>Rarity:</b> {capitalize(dailyCard?.rarity)}
       </div>
-      {dailyCard?.flavor_text.length > 0 && (
-        <div>
-          <b>Flavor Text:</b> {dailyCard?.flavor_text}
-        </div>
-      )}
+      {dailyCard?.flavor_text?.length ??
+        (0 > 0 && (
+          <div>
+            <b>Flavor Text:</b>
+            <i> {dailyCard?.flavor_text}</i>
+          </div>
+        ))}
       {guessCount > 0 && (
         <div>
           <b>Converted Mana Cost: </b>
@@ -68,7 +70,7 @@ export default function CardInfo({
       {(guessCount > 3 || !hideCard) && (
         <div className="w-full max-w-lg break-words">
           <b>Oracle Text: </b>
-          {dailyCard?.oracle_text}
+          {dailyCard?.oracle_text ?? "None"}
         </div>
       )}
     </div>
