@@ -75,8 +75,8 @@ export default function CardPage() {
               alt="daily card image"
               width={400}
               height={300}
-              className="rounded-lg shadow-md bg-[#ccc2c2]"
-              style={{ backgroundColor: "#ccc2c2" }}
+              className="rounded-lg shadow-md"
+              style={{ backgroundColor: "transparent" }}
             />
           </div>
         </div>

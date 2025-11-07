@@ -1,8 +1,9 @@
 "use client";
 
 import { Card } from "@/app/api/card/card.interface";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import Symbol from "../../symbol/page";
 interface CardInfoProps {
   dailyCard: Card;
   guessCount: number;
@@ -33,22 +34,27 @@ export default function CardInfo({
     <div className="items-start">
       <b>Set:</b> {dailyCard?.set_name}
       {setImageSvg && (
-        <img
+        <Image
           src={setImageSvg}
           alt={`${dailyCard?.set_name ?? ""} set icon`}
           className="set-image inline w-6 h-6 ml-2 rounded-lg"
+          width={6}
+          height={6}
         />
       )}
       <div>
         <b>Rarity:</b> {capitalize(dailyCard?.rarity)}
       </div>
-      {dailyCard?.flavor_text?.length ??
-        (0 > 0 && (
-          <div>
-            <b>Flavor Text:</b>
-            <i> {dailyCard?.flavor_text}</i>
-          </div>
-        ))}
+      {
+        <div>
+          <b>Flavor Text:</b>{" "}
+          {dailyCard?.flavor_text?.length ?? 0 > 0 ? (
+            <i> dailyCard?.flavor_text</i>
+          ) : (
+            "None"
+          )}
+        </div>
+      }
       {guessCount > 0 && (
         <div>
           <b>Converted Mana Cost: </b>
@@ -58,7 +64,9 @@ export default function CardInfo({
       {(guessCount > 1 || !hideCard) && (
         <div>
           <b>Color: </b>
-          {dailyCard?.color_identity}
+          {dailyCard?.color_identity.map((color) => {
+            return <Symbol symbol={color} />;
+          })}
         </div>
       )}
       {(guessCount > 2 || !hideCard) && (
