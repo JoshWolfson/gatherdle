@@ -65,7 +65,7 @@ export default function CardInfo({
         <div>
           <b>Color: </b>
           {dailyCard?.color_identity.map((color) => {
-            return <Symbol symbol={color} />;
+            return <Symbol symbol={color} key={null} />;
           })}
         </div>
       )}
