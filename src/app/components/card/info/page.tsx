@@ -49,7 +49,7 @@ export default function CardInfo({
         <div>
           <b>Flavor Text:</b>{" "}
           {dailyCard?.flavor_text?.length ?? 0 > 0 ? (
-            <i> dailyCard?.flavor_text</i>
+            <i> {dailyCard?.flavor_text}</i>
           ) : (
             "None"
           )}
