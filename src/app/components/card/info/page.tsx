@@ -64,9 +64,11 @@ export default function CardInfo({
       {(guessCount > 1 || !hideCard) && (
         <div>
           <b>Color: </b>
-          {dailyCard?.color_identity.map((color) => {
-            return <Symbol symbol={color} key={null} />;
-          })}
+          {dailyCard.color_identity.length > 0 &&
+            dailyCard?.color_identity.map((color, index) => {
+              return <Symbol symbol={color} key={index} />;
+            })}
+          {dailyCard.color_identity.length === 0 && "colorless"}
         </div>
       )}
       {(guessCount > 2 || !hideCard) && (
@@ -78,7 +80,7 @@ export default function CardInfo({
       {(guessCount > 3 || !hideCard) && (
         <div className="w-full max-w-lg break-words">
           <b>Oracle Text: </b>
-          {dailyCard?.oracle_text ?? "None"}
+          <i>{dailyCard?.oracle_text ?? "None"}</i>
         </div>
       )}
     </div>
