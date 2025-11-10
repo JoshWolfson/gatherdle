@@ -64,11 +64,11 @@ export default function CardInfo({
       {(guessCount > 1 || !hideCard) && (
         <div>
           <b>Color: </b>
-          {dailyCard.color_identity.length > 0 &&
-            dailyCard?.color_identity.map((color, index) => {
+          {dailyCard?.color_identity?.length > 0 &&
+            dailyCard?.color_identity?.map((color, index) => {
               return <Symbol symbol={color} key={index} />;
             })}
-          {dailyCard.color_identity.length === 0 && "colorless"}
+          {dailyCard?.color_identity?.length === 0 && "colorless"}
         </div>
       )}
       {(guessCount > 2 || !hideCard) && (
